@@ -26,7 +26,7 @@ const AddItem = () => {
     setStatus({ type: 'loading', message: 'Adding to database...' });
 
     try {
-      const response = await fetch('http://192.168.3.4:8080/api/inventory/products', {
+      const response = await fetch('https://pos-inventory-backend-vmlq.onrender.com/api/inventory/products', {
         method: 'POST',
         headers: { 
           'Content-Type': 'application/json',
@@ -70,7 +70,7 @@ const AddItem = () => {
     uploadData.append('file', file);
 
     try {
-      const response = await fetch('http://192.168.3.4:8080/api/inventory/products/upload', {
+      const response = await fetch('https://pos-inventory-backend-vmlq.onrender.com/api/inventory/products/upload', {
         method: 'POST',
         headers: {
           'X-Admin-PIN': sessionStorage.getItem('adminPIN') // <-- ADD THIS LINE!

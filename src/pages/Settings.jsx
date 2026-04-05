@@ -14,7 +14,7 @@ const Settings = () => {
     }
 
     try {
-      const response = await fetch('http://192.168.3.4:8080/api/settings/update-pin', {
+      const response = await fetch('https://pos-inventory-backend-vmlq.onrender.com/api/settings/update-pin', {
         method: 'PUT',
         headers: { 
           'Content-Type': 'application/json',

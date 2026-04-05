@@ -19,7 +19,7 @@ const Inventory = () => {
 
   const fetchProducts = async () => {
     try {
-      const response = await fetch('http://192.168.3.4:8080/api/inventory/products');
+      const response = await fetch('https://pos-inventory-backend-vmlq.onrender.com/api/inventory/products');
       if (response.ok) {
         setProducts(await response.json());
       }
@@ -45,7 +45,7 @@ const Inventory = () => {
   const submitEdit = async (e) => {
     e.preventDefault();
     try {
-      const response = await fetch(`http://192.168.3.4:8080/api/inventory/products/${selectedProduct.id}`, {
+      const response = await fetch(`https://pos-inventory-backend-vmlq.onrender.com/api/inventory/products/${selectedProduct.id}`, {
         method: 'PUT',
         headers: { 
           'Content-Type': 'application/json',
@@ -80,7 +80,7 @@ const Inventory = () => {
 
   const confirmDelete = async () => {
     try {
-      const response = await fetch(`http://192.168.3.4:8080/api/inventory/products/${selectedProduct.id}`, {
+      const response = await fetch(`https://pos-inventory-backend-vmlq.onrender.com/api/inventory/products/${selectedProduct.id}`, {
         method: 'DELETE',
         headers: {
           'X-Admin-PIN': sessionStorage.getItem('adminPIN') // <-- ADD THIS LINE!

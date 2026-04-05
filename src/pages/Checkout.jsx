@@ -20,8 +20,8 @@ const Checkout = () => {
   const fetchInventory = async () => {
     try {
       const [prodRes, servRes] = await Promise.all([
-        fetch('http://192.168.3.4:8080/api/inventory/products'),
-        fetch('http://192.168.3.4:8080/api/inventory/services')
+        fetch('https://pos-inventory-backend-vmlq.onrender.com/api/inventory/products'),
+        fetch('https://pos-inventory-backend-vmlq.onrender.com/api/inventory/services')
       ]);
       
       if (prodRes.ok) {
@@ -108,7 +108,7 @@ const Checkout = () => {
     };
 
     try {
-      const response = await fetch('http://192.168.3.4:8080/api/checkout', {
+      const response = await fetch('https://pos-inventory-backend-vmlq.onrender.com/api/checkout', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(salePayload)

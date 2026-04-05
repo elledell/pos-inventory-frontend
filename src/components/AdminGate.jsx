@@ -19,7 +19,7 @@ const AdminGate = ({ children }) => {
 
     try {
       // Ask Spring Boot if the PIN is correct!
-      const response = await fetch('http://192.168.3.4:8080/api/settings/verify', {
+      const response = await fetch('https://pos-inventory-backend-vmlq.onrender.com/api/settings/verify', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ pin: pin })

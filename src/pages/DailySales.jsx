@@ -16,7 +16,7 @@ const DailySales = () => {
 
   const fetchTodaySales = async () => {
     try {
-      const response = await fetch('http://192.168.3.4:8080/api/reports/sales/today');
+      const response = await fetch('https://pos-inventory-backend-vmlq.onrender.com/api/reports/sales/today');
       if (response.ok) {
         const rawSales = await response.json();
         

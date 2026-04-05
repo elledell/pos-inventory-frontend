@@ -28,10 +28,10 @@ const Home = () => {
 
   const fetchDashboardData = async () => {
     try {
-      const statsResponse = await fetch('http://192.168.3.4:8080/api/reports/dashboard');
+      const statsResponse = await fetch('https://pos-inventory-backend-vmlq.onrender.com/api/reports/dashboard');
       if (statsResponse.ok) setStats(await statsResponse.json());
 
-      const inventoryResponse = await fetch('http://192.168.3.4:8080/api/inventory/products');
+      const inventoryResponse = await fetch('https://pos-inventory-backend-vmlq.onrender.com/api/inventory/products');
       if (inventoryResponse.ok) {
         const allProducts = await inventoryResponse.json();
         setLowStockItems(allProducts.filter(product => product.stockQuantity <= 5));

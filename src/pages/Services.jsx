@@ -20,7 +20,7 @@ const Services = () => {
 
   const fetchServices = async () => {
     try {
-      const response = await fetch('http://192.168.3.4:8080/api/inventory/services');
+      const response = await fetch('https://pos-inventory-backend-vmlq.onrender.com/api/inventory/services');
       if (response.ok) {
         const data = await response.json();
         setServices(data);
@@ -41,7 +41,7 @@ const Services = () => {
     setStatus({ type: 'loading', message: 'Adding service...' });
 
     try {
-      const response = await fetch('http://192.168.3.4:8080/api/inventory/services', {
+      const response = await fetch('https://pos-inventory-backend-vmlq.onrender.com/api/inventory/services', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({

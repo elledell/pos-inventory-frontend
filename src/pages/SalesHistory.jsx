@@ -15,8 +15,8 @@ const SalesHistory = () => {
     setLoading(true);
     try {
       const endpoint = currentFrame === 'weekly' 
-        ? 'http://192.168.3.4:8080/api/reports/sales/weekly'
-        : 'http://192.168.3.4:8080/api/reports/sales/monthly';
+        ? 'https://pos-inventory-backend-vmlq.onrender.com/api/reports/sales/weekly'
+        : 'https://pos-inventory-backend-vmlq.onrender.com/api/reports/sales/monthly';
 
       const response = await fetch(endpoint);
       if (response.ok) {
