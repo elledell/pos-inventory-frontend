@@ -1,10 +1,11 @@
 import React, { useState, useEffect } from 'react';
-import { ArrowLeft, Package, Wrench, Clock, Banknote, Calendar, BarChart2 } from 'lucide-react';
+import { ArrowLeft, Package, Wrench, Clock, Banknote, Calendar, BarChart2, Smartphone } from 'lucide-react';
 import { Link } from 'react-router-dom';
 
 const SalesHistory = () => {
   const [timeframe, setTimeframe] = useState('weekly'); 
   const [salesData, setSalesData] = useState({ products: [], services: [], totalRevenue: 0 });
+  const [paymentBreakdown, setPaymentBreakdown] = useState({ cash: 0, mpesa: 0 });
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -25,9 +26,18 @@ const SalesHistory = () => {
         let total = 0;
         let prods = [];
         let servs = [];
+        let cashTotal = 0;
+        let mpesaTotal = 0;
 
         rawSales.forEach(sale => {
           total += sale.totalAmount;
+          
+          // Accumulate by payment method
+          if (sale.paymentMethod === 'Cash') {
+            cashTotal += sale.totalAmount;
+          } else if (sale.paymentMethod === 'M-Pesa') {
+            mpesaTotal += sale.totalAmount;
+          }
           
           const dateObj = new Date(sale.saleDate);
           const dateString = dateObj.toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
@@ -57,6 +67,7 @@ const SalesHistory = () => {
         servs.reverse();
 
         setSalesData({ products: prods, services: servs, totalRevenue: total });
+        setPaymentBreakdown({ cash: cashTotal, mpesa: mpesaTotal });
       }
     } catch (error) {
       console.error(`Failed to fetch ${currentFrame} sales:`, error);
@@ -183,6 +194,51 @@ const SalesHistory = () => {
         </div>
 
       </div>
+
+      {/* PAYMENT BREAKDOWN - NEW SECTION */}
+      <div className="max-w-5xl mx-auto mt-8">
+        <div className="bg-white dark:bg-gray-800 rounded-2xl border border-gray-100 dark:border-gray-700 shadow-sm overflow-hidden transition-colors">
+          <div className="p-6 border-b border-gray-100 dark:border-gray-700 bg-gray-50/50 dark:bg-gray-800/50">
+            <h3 className="text-lg font-semibold text-gray-900 dark:text-white">Payment Method Breakdown</h3>
+            <p className="text-xs text-gray-500 dark:text-gray-400 mt-1">
+              {timeframe === 'weekly' ? 'This week' : 'This month'}'s revenue split by payment type
+            </p>
+          </div>
+          
+          <div className="p-6 grid grid-cols-1 md:grid-cols-2 gap-4">
+            {/* CASH */}
+            <div className="flex items-center justify-between p-5 bg-gray-50 dark:bg-gray-700/30 rounded-xl border border-gray-100 dark:border-gray-600 transition-colors">
+              <div className="flex items-center gap-4">
+                <div className="p-3 bg-white dark:bg-gray-600 rounded-lg">
+                  <Banknote className="text-gray-700 dark:text-gray-300" size={24} />
+                </div>
+                <div>
+                  <p className="text-sm font-medium text-gray-500 dark:text-gray-400">Cash Payments</p>
+                  <p className="text-2xl font-bold text-gray-900 dark:text-white mt-1">
+                    {loading ? '...' : `Ksh ${paymentBreakdown.cash.toLocaleString()}`}
+                  </p>
+                </div>
+              </div>
+            </div>
+
+            {/* M-PESA */}
+            <div className="flex items-center justify-between p-5 bg-green-50 dark:bg-green-900/20 rounded-xl border border-green-100 dark:border-green-900/50 transition-colors">
+              <div className="flex items-center gap-4">
+                <div className="p-3 bg-green-100 dark:bg-green-900/40 rounded-lg">
+                  <Smartphone className="text-green-600 dark:text-green-400" size={24} />
+                </div>
+                <div>
+                  <p className="text-sm font-medium text-gray-500 dark:text-gray-400">M-Pesa Payments</p>
+                  <p className="text-2xl font-bold text-green-700 dark:text-green-400 mt-1">
+                    {loading ? '...' : `Ksh ${paymentBreakdown.mpesa.toLocaleString()}`}
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
     </div>
   );
 };
