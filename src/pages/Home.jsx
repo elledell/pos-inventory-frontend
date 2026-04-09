@@ -9,21 +9,15 @@ const Home = () => {
   const [loading, setLoading] = useState(true);
   const [greeting, setGreeting] = useState('Hello');
   
-  // State to control the mobile sidebar
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
   useEffect(() => {
     fetchDashboardData();
     
-    // Dynamic greeting based on current hour
     const currentHour = new Date().getHours();
-    if (currentHour < 12) {
-      setGreeting('Good morning');
-    } else if (currentHour < 18) {
-      setGreeting('Good afternoon');
-    } else {
-      setGreeting('Good evening');
-    }
+    if (currentHour < 12) setGreeting('Good morning');
+    else if (currentHour < 18) setGreeting('Good afternoon');
+    else setGreeting('Good evening');
   }, []);
 
   const fetchDashboardData = async () => {
@@ -43,12 +37,17 @@ const Home = () => {
     }
   };
 
+  // ✅ IMPROVED: Always masks the amount (even 0)
+  const maskAmount = (amount) => {
+    if (loading) return '...';
+    const formatted = amount.toLocaleString();           // e.g. "124500" → "124,500"
+    return `Ksh ${formatted.replace(/\d/g, '•')}`;      // every digit becomes •
+  };
+
   return (
     <div className="flex h-screen bg-gray-50 dark:bg-gray-900 font-sans overflow-hidden transition-colors duration-200">
       
-      {/* =======================
-            MOBILE OVERLAY
-          ======================= */}
+      {/* MOBILE OVERLAY */}
       {isMobileMenuOpen && (
         <div 
           className="fixed inset-0 bg-gray-900/50 z-40 md:hidden backdrop-blur-sm transition-opacity"
@@ -56,9 +55,7 @@ const Home = () => {
         />
       )}
 
-      {/* =======================
-            SIDEBAR NAVIGATION
-          ======================= */}
+      {/* SIDEBAR NAVIGATION */}
       <aside className={`fixed inset-y-0 left-0 z-50 w-64 bg-white dark:bg-gray-800 border-r border-gray-100 dark:border-gray-700 flex flex-col transform transition-transform duration-300 ease-in-out md:relative md:translate-x-0 ${isMobileMenuOpen ? 'translate-x-0 shadow-2xl' : '-translate-x-full'}`}>
         <div className="h-16 flex items-center justify-between px-6 border-b border-gray-50 dark:border-gray-700">
           <h1 className="text-xl font-bold tracking-tight text-gray-900 dark:text-white">Inventory<span className="text-blue-600 dark:text-blue-400">.sys</span></h1>
@@ -102,12 +99,8 @@ const Home = () => {
         </div>
       </aside>
 
-      {/* =======================
-            MAIN CONTENT AREA
-          ======================= */}
+      {/* MAIN CONTENT */}
       <main className="flex-1 overflow-y-auto h-screen relative">
-        
-        {/* Mobile-Optimized Header */}
         <header className="h-16 flex items-center justify-between md:justify-start px-4 md:px-10 bg-white/80 dark:bg-gray-800/80 backdrop-blur-md sticky top-0 border-b border-gray-100 dark:border-gray-700 z-10 transition-colors duration-200">
           <div className="flex items-center gap-3 md:hidden">
             <button 
@@ -121,20 +114,19 @@ const Home = () => {
         </header>
 
         <div className="p-5 md:p-10 max-w-6xl mx-auto pb-24">
-          
           <div className="mb-6 md:mb-8">
             <h3 className="text-xl md:text-2xl font-semibold text-gray-900 dark:text-white">{greeting}.</h3>
             <p className="text-sm md:text-base text-gray-500 dark:text-gray-400 mt-1">Here is what's happening with your store today.</p>
           </div>
 
-          {/* Stats Grid */}
+          {/* STATS GRID - NOW FULLY HASHED */}
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6 mb-8">
             <Link to="/daily-sales" className="bg-white dark:bg-gray-800 p-5 md:p-6 rounded-2xl border border-gray-100 dark:border-gray-700 shadow-sm hover:border-blue-300 dark:hover:border-blue-500 transition-all block group">
               <p className="text-xs md:text-sm font-medium text-gray-500 dark:text-gray-400 mb-2 flex items-center justify-between">
                 Today's Sales <ArrowRight size={14} className="opacity-0 group-hover:opacity-100 transition-opacity text-blue-500" />
               </p>
               <h4 className="text-2xl lg:text-3xl font-semibold text-gray-900 dark:text-white">
-                {loading ? '...' : `Ksh ${stats.dailySales.toLocaleString()}`}
+                {maskAmount(stats.dailySales)}
               </h4>
             </Link>
             
@@ -143,7 +135,7 @@ const Home = () => {
                 Weekly Revenue <ArrowRight size={14} className="opacity-0 group-hover:opacity-100 transition-opacity text-blue-500" />
               </p>
               <h4 className="text-2xl lg:text-3xl font-semibold text-gray-900 dark:text-white">
-                {loading ? '...' : `Ksh ${stats.weeklySales.toLocaleString()}`}
+                {maskAmount(stats.weeklySales)}
               </h4>
             </Link>
 
@@ -152,7 +144,7 @@ const Home = () => {
                 Monthly Revenue <ArrowRight size={14} className="opacity-0 group-hover:opacity-100 transition-opacity text-blue-500" />
               </p>
               <h4 className="text-2xl lg:text-3xl font-semibold text-gray-900 dark:text-white">
-                {loading ? '...' : `Ksh ${stats.monthlySales.toLocaleString()}`}
+                {maskAmount(stats.monthlySales)}
               </h4>
             </Link>
             
@@ -166,8 +158,8 @@ const Home = () => {
             </Link>
           </div>
 
+          {/* Rest of your component (Low Stock + Quick Actions) stays exactly the same */}
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 md:gap-8">
-            
             {/* Low Stock List */}
             <div className="lg:col-span-2 bg-white dark:bg-gray-800 rounded-2xl border border-gray-100 dark:border-gray-700 shadow-sm overflow-hidden h-fit transition-colors">
               <div className="p-5 md:p-6 border-b border-gray-100 dark:border-gray-700 bg-gray-50/50 dark:bg-gray-800/50 flex items-center gap-2">
@@ -214,7 +206,6 @@ const Home = () => {
               </div>
             </div>
           </div>
-
         </div>
       </main>
     </div>

@@ -1,0 +1,100 @@
+.idle-screen {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 9999;
+  cursor: pointer;
+  animation: fadeIn 0.5s ease-in;
+}
+
+.idle-content {
+  text-align: center;
+  color: white;
+  user-select: none;
+}
+
+.clock {
+  font-size: 8rem;
+  font-weight: 300;
+  letter-spacing: 0.05em;
+  margin-bottom: 1rem;
+  animation: pulse 2s ease-in-out infinite;
+}
+
+.date {
+  font-size: 1.8rem;
+  font-weight: 300;
+  color: #94a3b8;
+  margin-bottom: 4rem;
+}
+
+.tap-message {
+  margin-top: 3rem;
+  animation: blink 1.5s ease-in-out infinite;
+}
+
+.tap-message p {
+  font-size: 1.2rem;
+  color: #64748b;
+  font-weight: 300;
+}
+
+.logo {
+  margin-top: 4rem;
+  opacity: 0.4;
+}
+
+.logo h1 {
+  font-size: 2rem;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+}
+
+/* Animations */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes pulse {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.7;
+  }
+}
+
+@keyframes blink {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.3;
+  }
+}
+
+/* Responsive design */
+@media (max-width: 768px) {
+  .clock {
+    font-size: 5rem;
+  }
+  
+  .date {
+    font-size: 1.2rem;
+  }
+  
+  .logo h1 {
+    font-size: 1.5rem;
+  }
+}
